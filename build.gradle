@@ -18,10 +18,29 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	// 웹 API (REST Controller 사용하려면 필요)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Redis 연동
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// MySQL 드라이버 (런타임에만 필요, 컴파일 시엔 불필요)
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// Lombok (코드 생성 도구 - getter/setter/constructor 자동화)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// 테스트는 하나로 통합 (JUnit5, Mockito 모두 포함됨)
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
