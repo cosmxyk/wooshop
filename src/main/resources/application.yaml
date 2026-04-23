@@ -1,3 +1,13 @@
 spring:
   application:
     name: wooshop
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/wooshop
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
