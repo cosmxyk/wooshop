@@ -1,5 +1,6 @@
 package com.wooshop.member.service;
 
+import com.wooshop.common.exception.DuplicateEmailException;
 import com.wooshop.member.domain.Member;
 import com.wooshop.member.domain.MemberRole;
 import com.wooshop.member.repository.MemberRepository;
@@ -19,7 +20,7 @@ public class MemberService {
     public Long register(String email, String password, String name) {
         // 1. 이메일 중복 체크
         if (memberRepository.findByEmail(email).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 이메일입니다. " + email);
+            throw new DuplicateEmailException(email);
         }
 
         // 2. 비밀번호 암호화
