@@ -17,11 +17,19 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResponseEntity<Long> register (@RequestBody MemberRequest.Register register) {
+    public ResponseEntity<Long> register (@RequestBody MemberRequest.Register request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.register(
-                register.getEmail(),
-                register.getPassword(),
-                register.getName()
+                request.getEmail(),
+                request.getPassword(),
+                request.getName()
+        ));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login (@RequestBody MemberRequest.Login request) {
+        return ResponseEntity.ok(memberService.login(
+                request.getEmail(),
+                request.getPassword()
         ));
     }
 }
