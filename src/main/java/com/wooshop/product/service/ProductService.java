@@ -4,6 +4,7 @@ import com.wooshop.common.exception.DuplicateProductCodeException;
 import com.wooshop.common.exception.ProductNotFoundException;
 import com.wooshop.inventory.domain.Inventory;
 import com.wooshop.inventory.repository.InventoryRepository;
+import com.wooshop.product.controller.ProductResponse;
 import com.wooshop.product.domain.Product;
 import com.wooshop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,16 +48,20 @@ public class ProductService {
 
     // 상품 단건 조회
     @Transactional(readOnly = true)
-    public Product getProduct(Long productId) {
+    public ProductResponse.Detail getProduct(Long productId) {
         // productId로 조회, 없으면 예외
-        return productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId));
+        return ProductResponse.Detail.from(
+                productRepository.findById(productId)
+                        .orElseThrow(() -> new ProductNotFoundException(productId)));
     }
 
     // 상품 목록 조회
     @Transactional(readOnly = true)
-    public List<Product> getProducts() {
+    public List<ProductResponse.Detail> getProducts() {
         // 전체 조회
-        return productRepository.findAll();
+        return productRepository.findAll()
+                .stream()
+                .map(ProductResponse.Detail::from)
+                .toList();
     }
 }
