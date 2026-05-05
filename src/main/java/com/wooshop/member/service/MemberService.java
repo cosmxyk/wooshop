@@ -54,6 +54,6 @@ public class MemberService {
         }
 
         // 3. JWT 토큰 발급 후 반환
-        return jwtProvider.generateToken(email);
+        return jwtProvider.generateToken(email, member.getRole().name());
     }
 }

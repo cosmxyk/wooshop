@@ -25,7 +25,7 @@ public class JwtProvider {
     }
 
     // 토큰 생성 (email을 subject로)
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
         // Jwts.builder() 사용
         // subject: email
         // issuedAt: 현재 시간
@@ -37,6 +37,7 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .subject(email)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(secretKey)
@@ -52,7 +53,18 @@ public class JwtProvider {
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload().getSubject();
+                .getPayload()
+                .getSubject();
+    }
+
+    // 토큰에서 role 추출
+    public String getRole(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
     }
 
     // 토큰 유효성 검증
