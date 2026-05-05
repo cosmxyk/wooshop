@@ -89,7 +89,7 @@ class MemberServiceTest {
 
         given(passwordEncoder.matches(eq("password"), any())).willReturn(true);
 
-        given(jwtProvider.generateToken("test@email.com")).willReturn("mocked.jwt.token");
+        given(jwtProvider.generateToken("test@email.com", "USER")).willReturn("mocked.jwt.token");
 
         // when
         String token = memberService.login("test@email.com", "password");
