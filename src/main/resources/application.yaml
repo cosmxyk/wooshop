@@ -12,6 +12,11 @@ spring:
       ddl-auto: create
     show-sql: true
 
-  jwt:
-    secret: tE/rZtkrTaYMxcIY4r09eM6VlLuGn/XwlyEjWIhyGcvEo9zyNETpwQgAb7jApoNjNRgz+PawY1jF+FHM4he7tA==
-    expiration: 3600000
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: tE/rZtkrTaYMxcIY4r09eM6VlLuGn/XwlyEjWIhyGcvEo9zyNETpwQgAb7jApoNjNRgz+PawY1jF+FHM4he7tA==
+  expiration: 3600000
