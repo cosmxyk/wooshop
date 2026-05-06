@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wooshop</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<header>
+    <h1>🛍 Wooshop API 테스트</h1>
+    <div id="auth-status">🔒 비로그인 상태</div>
+</header>
+
+<div class="container">
+
+    <!-- 회원가입 -->
+    <div class="card">
+        <h2>👤 회원가입 <span class="badge info">POST /api/members/register</span></h2>
+        <input id="reg-email"    type="email"    placeholder="이메일">
+        <input id="reg-password" type="password" placeholder="비밀번호">
+        <input id="reg-name"     type="text"     placeholder="이름">
+        <button class="btn-primary" id="reg-btn" onclick="register()">
+            <span class="spinner" id="reg-spinner"></span>회원가입
+        </button>
+        <div class="member-info-box" id="reg-info" style="display:none">
+            <div class="info-row"><span class="info-label">상태</span><span class="info-value success-text" id="reg-status-text"></span></div>
+            <div class="info-row"><span class="info-label">회원 ID</span><span class="info-value" id="reg-member-id"></span></div>
+            <div class="info-row"><span class="info-label">이름</span><span class="info-value" id="reg-member-name"></span></div>
+            <div class="info-row"><span class="info-label">이메일</span><span class="info-value" id="reg-member-email"></span></div>
+        </div>
+        <div class="error-box" id="reg-error" style="display:none"></div>
+    </div>
+
+    <!-- 로그인 -->
+    <div class="card">
+        <h2>🔑 로그인 <span class="badge info">POST /api/members/login</span></h2>
+        <input id="login-email"    type="email"    placeholder="이메일">
+        <input id="login-password" type="password" placeholder="비밀번호">
+        <div class="btn-group">
+            <button class="btn-primary" id="login-btn" onclick="login()">
+                <span class="spinner" id="login-spinner"></span>로그인
+            </button>
+            <button class="btn-danger" onclick="logout()">로그아웃</button>
+        </div>
+        <div class="login-status-box" id="login-info" style="display:none">
+            <div class="login-status-icon" id="login-icon"></div>
+            <div class="login-status-detail">
+                <div class="info-row"><span class="info-label">상태</span><span class="info-value" id="login-status-text"></span></div>
+                <div class="info-row"><span class="info-label">이메일</span><span class="info-value" id="login-email-text"></span></div>
+            </div>
+        </div>
+        <div class="token-box" id="token-box" style="display:none"></div>
+        <div class="error-box" id="login-error" style="display:none"></div>
+    </div>
+
+    <!-- 상품 등록 -->
+    <div class="card">
+        <h2>📦 상품 등록 <span class="badge info">POST /api/products</span></h2>
+        <input id="p-code"  type="text"   placeholder="상품코드 (예: PROD-001)">
+        <input id="p-name"  type="text"   placeholder="상품명">
+        <input id="p-price" type="number" placeholder="가격">
+        <input id="p-stock" type="number" placeholder="재고수량">
+        <button class="btn-success" id="product-reg-btn" onclick="registerProduct()">
+            <span class="spinner" id="product-reg-spinner"></span>상품 등록
+        </button>
+        <div class="member-info-box" id="product-reg-info" style="display:none">
+            <div class="info-row"><span class="info-label">상태</span><span class="info-value success-text" id="product-reg-status-text"></span></div>
+            <div class="info-row"><span class="info-label">상품 ID</span><span class="info-value" id="product-reg-id"></span></div>
+            <div class="info-row"><span class="info-label">상품명</span><span class="info-value" id="product-reg-name-text"></span></div>
+            <div class="info-row"><span class="info-label">가격</span><span class="info-value" id="product-reg-price-text"></span></div>
+            <div class="info-row"><span class="info-label">재고</span><span class="info-value" id="product-reg-stock-text"></span></div>
+        </div>
+        <div class="error-box" id="product-reg-error" style="display:none"></div>
+    </div>
+
+    <!-- 상품 단건 조회 -->
+    <div class="card">
+        <h2>🔍 상품 조회 <span class="badge info">GET /api/products/{id}</span></h2>
+        <input id="p-id" type="text" placeholder="상품 ID 입력">
+        <button class="btn-info" id="product-get-btn" onclick="getProduct()">
+            <span class="spinner" id="product-get-spinner"></span>조회
+        </button>
+        <div class="product-detail-box" id="product-detail" style="display:none">
+            <div class="info-row"><span class="info-label">상품 ID</span><span class="info-value" id="detail-id"></span></div>
+            <div class="info-row"><span class="info-label">상품코드</span><span class="info-value" id="detail-code"></span></div>
+            <div class="info-row"><span class="info-label">상품명</span><span class="info-value" id="detail-name"></span></div>
+            <div class="info-row"><span class="info-label">가격</span><span class="info-value price-text" id="detail-price"></span></div>
+        </div>
+        <div class="error-box" id="product-get-error" style="display:none"></div>
+    </div>
+
+    <!-- 상품 목록 -->
+    <div class="card full-width">
+        <h2>📋 상품 목록 <span class="badge info">GET /api/products</span></h2>
+        <button class="btn-info" id="products-btn" onclick="getProducts()">
+            <span class="spinner" id="products-spinner"></span>전체 조회
+        </button>
+        <div id="product-card-grid" class="product-card-grid"></div>
+    </div>
+
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
